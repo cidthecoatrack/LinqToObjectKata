@@ -1,151 +1,166 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LinqToObjectKata;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace LinqToObjectKata.Test
 {
-    [TestClass]
+    [TestFixture]
     public class AnyBucketTests
     {
-        [TestMethod]
+        [Test]
         public void CanUseAny()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             numbers.Any();
         }
 
-        [TestMethod]
+        [Test]
         public void FindsAny()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.IsTrue(numbers.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void FindsAnyByPredicate()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.IsTrue(numbers.Any(x => x % 2 == 0));
         }
 
-        [TestMethod]
+        [Test]
+        public void AnyFalse()
+        {
+            var numbers = new List<Int32>();
+            Assert.That(numbers.Any(), Is.False);
+        }
+
+        [Test]
         public void CanUseDistinct()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             numbers.Distinct();
         }
 
-        [TestMethod]
+        [Test]
         public void DistinctWorks()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 3, 4, 5 };
-            Assert.AreEqual(5, numbers.Distinct().Count());
+            var numbers = new[] { 1, 2, 3, 3, 4, 5 };
+            var distinct = numbers.Distinct();
+            Assert.That(distinct, Contains.Item(1));
+            Assert.That(distinct, Contains.Item(2));
+            Assert.That(distinct, Contains.Item(3));
+            Assert.That(distinct, Contains.Item(4));
+            Assert.That(distinct, Contains.Item(5));
+            Assert.AreEqual(5, distinct.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void DistinctWorksWithPredicateThing()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 3, 4, 5 };
-            Assert.AreEqual(5, numbers.Distinct(new ThisIsMyComparerDammit()).Count());
+            var numbers = new[] { 1, 2, 3, 3, 4, 6 };
+            var distinct = numbers.Distinct(new ThisIsMyComparerDammit());
+            Assert.That(distinct, Contains.Item(1));
+            Assert.That(distinct, Contains.Item(6));
+            Assert.AreEqual(2, distinct.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void CanUseWhere()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             numbers.Where(x => x > 2);
         }
 
-        [TestMethod]
+        [Test]
         public void WhereReturnsNumbersGreaterThanTwo()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(3, numbers.Where(x => x > 2).Count());
         }
 
-        [TestMethod]
+        [Test]
         public void EmptyArrayDoesntBreakWhere()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.IsNotNull(numbers.Where(x => false));
         }
 
-        [TestMethod]
+        [Test]
         public void WhereReturnsNumbersGreaterThanOneWithEvenIndexes()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(2, numbers.Where((x, i) => x > 1 && i % 2 == 0).Count());
         }
 
-        [TestMethod]
+        [Test]
         public void CanFindFirst()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             numbers.First();
         }
 
-        [TestMethod]
+        [Test]
         public void FindsFirstElement()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(1, numbers.First());
         }
 
-        [TestMethod]
+        [Test]
         public void FindsFirstSatisfactoryElement()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(2, numbers.First(x => x % 2 == 0));
         }
 
-        [TestMethod]
+        [Test]
         public void CanFindLast()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             numbers.Last();
         }
 
-        [TestMethod]
+        [Test]
         public void FindsLast()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(5, numbers.Last());
         }
 
-        [TestMethod]
+        [Test]
         public void FindsLastByPredicate()
         {
-            IEnumerable<Int32> numbers = new[] { 1, 2, 3, 4, 5 };
+            var numbers = new[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(4, numbers.Last(x => x % 2 == 0));
         }
 
-        [TestMethod]
+        [Test]
         public void AssertTruth()
         {
-            Assert.IsTrue(true);
+            Assert.Pass();
         }
 
-        [TestMethod]
+        [Test]
         public void CountExists()
         {
-            IEnumerable<Int32> numbers = new Int32[] { 1, 2, 3, 4, 5 };
+            var numbers = new Int32[] { 1, 2, 3, 4, 5 };
             numbers.Count();
         }
 
-        [TestMethod]
+        [Test]
         public void CanCountEnumerableOfOneItem()
         {
-            IEnumerable<Int32> numbers = new Int32[] { 1 };
+            var numbers = new Int32[] { 1 };
             Assert.AreEqual(1, numbers.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void CanCountEnumerableOfAnySize()
         {
-            List<Int32> numbers = new List<Int32>();
-            Random random = new Random();
-            Int32 count = 0;
+            var numbers = new List<Int32>();
+            var random = new Random();
+            var count = 0;
 
             while (random.Next() > random.Next() / 2)
             {
@@ -156,23 +171,23 @@ namespace LinqToObjectKata.Test
             Assert.AreEqual(count, numbers.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void CanCountUsingPredicate()
         {
-            IEnumerable<Int32> numbers = new Int32[] { 1, 2, 3, 4, 5 };
+            var numbers = new Int32[] { 1, 2, 3, 4, 5 };
             Assert.AreEqual(3, numbers.Count(x => x > 2));
         }
 
-        [TestMethod]
+        [Test]
         public void CanCountEnumerableOfAnySizeUsingPredicate()
         {
-            List<Int32> numbers = new List<Int32>();
-            Random random = new Random();
-            Int32 count = 0;
+            var numbers = new List<Int32>();
+            var random = new Random();
+            var count = 0;
 
             while (random.Next() > random.Next() / 2)
             {
-                Int32 number = random.Next();
+                var number = random.Next();
                 numbers.Add(number);
                 if (number < Int32.MaxValue / 2)
                     count++;
@@ -185,7 +200,7 @@ namespace LinqToObjectKata.Test
         {
             public Boolean Equals(Int32 x, Int32 y)
             {
-                return (Math.Abs(x - y) < 1);
+                return (Math.Abs(x - y) < 2);
             }
 
             public Int32 GetHashCode(Int32 obj)

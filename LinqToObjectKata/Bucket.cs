@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinqToObjectKata
 {
@@ -9,7 +7,7 @@ namespace LinqToObjectKata
     {
         public static Int32 Count<T>(this IEnumerable<T> source)
         {
-            Int32 count = 0;
+            var count = 0;
 
             foreach (T e in source)
                 count++;
@@ -19,7 +17,7 @@ namespace LinqToObjectKata
 
         public static Int32 Count<T>(this IEnumerable<T> source, Func<T, Boolean> function)
         {
-            Int32 count = 0;
+            var count = 0;
 
             foreach (T e in source)
                 if (function(e))
@@ -32,6 +30,7 @@ namespace LinqToObjectKata
         {
             foreach (T e in source)
                 return true;
+
             return false;
         }
 
@@ -40,12 +39,13 @@ namespace LinqToObjectKata
             foreach (T e in source)
                 if (function(e))
                     return true;
+
             return false;
         }
 
         public static IEnumerable<T> Distinct<T>(this IEnumerable<T> source)
         {
-            HashSet<T> matched = new HashSet<T>();
+            var matched = new HashSet<T>();
 
             foreach (T e in source)
             {
@@ -59,7 +59,7 @@ namespace LinqToObjectKata
 
         public static IEnumerable<T> Distinct<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer)
         {
-            HashSet<T> matched = new HashSet<T>(comparer);
+            var matched = new HashSet<T>(comparer);
 
             foreach (T e in source)
             {
@@ -80,7 +80,7 @@ namespace LinqToObjectKata
 
         public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, Int32, Boolean> function)
         {
-            Int32 index = 0;
+            var index = 0;
 
             foreach (T e in source)
                 if (function(e, index++))
@@ -91,6 +91,7 @@ namespace LinqToObjectKata
         {
             foreach (T e in source)
                 return e;
+
             throw new InvalidOperationException();
         }
 
@@ -99,6 +100,7 @@ namespace LinqToObjectKata
             foreach (T e in source)
                 if (function(e))
                     return e;
+
             throw new InvalidOperationException();
         }
 
